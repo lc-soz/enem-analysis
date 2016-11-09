@@ -1,3 +1,5 @@
+# Simple progress function
+
 import time
 import os
 

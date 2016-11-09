@@ -1,4 +1,4 @@
-#Count correct answers in essay.
+# Count correct answers in exam.
 
 import csv
 

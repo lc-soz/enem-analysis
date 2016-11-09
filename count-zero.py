@@ -1,4 +1,4 @@
-#Count amount of "zeros" in all candidates of the essay.
+# Count amount of "zeros" in all candidates of the exam.
 
 import csv
 import os

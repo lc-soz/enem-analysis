@@ -1,3 +1,5 @@
+# Deleting not useful columns from file
+
 import csv
 import os
 
