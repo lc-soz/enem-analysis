@@ -4,16 +4,15 @@ import csv
 import os
 
 # Variables min and max
-global minCN
-global maxCN
-global minCH
-global maxCH
-global minLC
-global maxLC
-global minMT
-global maxMT
+var = [[0 for x in range(0,45)] for x in range(0,8)]
 
-with open("a.csv", "rb") as source:
+for i in (0,2,4,6):
+
+    for z in range(0,45):
+
+        var[i][z] = 1000
+
+with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
 
     rdr = csv.reader(source)
 
@@ -26,16 +25,7 @@ with open("a.csv", "rb") as source:
 
         for i in range (0,46):
             
-            # Variables min and max
-            minCN = 1000
-            maxCN = 0
-            minCH = 1000
-            maxCH = 0
-            minLC = 1000
-            maxLC = 0
-            minMT = 1000
-            maxMT = 0
-            with open("a.csv", "rb") as source:
+            with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
                 
                 rdr = csv.reader(source)
 
@@ -45,25 +35,25 @@ with open("a.csv", "rb") as source:
 
                         # Ciencias da Natureza
                         if int(r[5]) == i and r[0] != "" and float(r[0]) > 0:
-                            minCN = min(minCN, float(r[0]))
-                            maxCN = max(maxCN, float(r[0]))
+                            var[0][i] = min(var[0][i], float(r[0]))
+                            var[1][i] = max(var[1][i], float(r[0]))
 
                         # Ciencias Humanas
                         if int(r[6]) == i and r[1] != "" and float(r[1]) > 0:
-                            minCH = min(minCH, float(r[1]))
-                            maxCH = max(maxCH, float(r[1]))
+                            var[2][i] = min(var[2][i], float(r[1]))
+                            var[3][i] = max(var[3][i], float(r[1]))
 
                         # Letras e Codigos
                         if int(r[7]) == i and r[2] != "" and float(r[2]) > 0:
-                            minLC = min(minLC, float(r[2]))
-                            maxLC = max(maxLC, float(r[2]))
+                            var[4][i] = min(var[4][i], float(r[2]))
+                            var[5][i] = max(var[5][i], float(r[2]))
 
                         # Matematica
                         if int(r[8]) == i and r[3] != "" and float(r[3]) > 0:
-                            minMT = min(minMT, float(r[3]))
-                            maxMT = max(maxMT, float(r[3]))
+                            var[6][i] = min(var[6][i], float(r[3]))
+                            var[7][i] = max(var[7][i], float(r[3]))
             print(i)
-            wtr.writerow((i, minCN, maxCN, minCH, maxCH, minLC, maxLC, minMT, maxMT))
+            wtr.writerow((i, var[0][i], var[1][i], var[2][i], var[3][i], var[4][i], var[5][i], var[6][i], var[7][i]))
 
 print("Press any key to close terminal")
 input()
