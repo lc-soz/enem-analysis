@@ -6,10 +6,7 @@ import time
 
 t0 = time.time() # For run time (wall time)
 
-global var
-
-# Matrix with all cell_grades
-var = [[0 for x in range(0,46)] for x in range(0,8)]
+var = [[0 for x in range(0,46)] for x in range(0,8)] # Matrix with min and max scores
 
 for i in (0,2,4,6):
 
@@ -17,20 +14,20 @@ for i in (0,2,4,6):
 
         var[i][z] = 1000
 
-def save_values(cell_grade):
+# Functions
+def save_values(cell_grade, cell_answer):
 
-        global cell_answer
-
-        cell_answer = 5 + cell_grade
         var_pos = cell_grade * 2
+        var_pos_plus = var_pos + 1
 
-        if is_value_correct(cell_grade):
+        if is_value_correct(cell_grade, cell_answer):
             
             value_answer = int(r[cell_answer])
             var[var_pos][value_answer] = min(var[var_pos][value_answer], float(r[cell_grade]))
-            var[(var_pos + 1)][value_answer] = max(var[(var_pos + 1)][value_answer], float(r[cell_grade]))
+            var[var_pos_plus][value_answer] = max(var[var_pos_plus][value_answer], float(r[cell_grade]))
             
-def is_value_correct(cell_grade):
+# Methods
+def is_value_correct(cell_grade, cell_answer):
         
         if r[cell_answer] != "" and r[cell_grade] != "" and float(r[cell_grade]) > 0:
         
@@ -45,8 +42,8 @@ with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
         wtr = csv.writer(result)
 
         # HEADER
-        wtr.writerow(("", "CN", "", "CH", "", "LC", "", "MT"))
-        wtr.writerow(("NUM", "MIN", "MAX", "MIN", "MAX", "MIN", "MAX", "MIN", "MAX"))
+        wtr.writerow(["", "CN", "", "CH", "", "LC", "", "MT"])
+        wtr.writerow(["NUM"] + ["MIN", "MAX"] * 4)
 
         with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
 
@@ -55,20 +52,21 @@ with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
             for r in rdr:
                 
                 # Ciencias da Natureza 
-                save_values(0)
+                save_values(0, 5)
 
                 # Ciencias Humanas 
-                save_values(1)
+                save_values(1, 6)
 
                 # Letras e Codigos 
-                save_values(2)
+                save_values(2, 7)
 
                 # Matematica 
-                save_values(3)
+                save_values(3, 8)
 
             for z in range(0, 46):
                 
-                wtr.writerow((z, var[0][z], var[1][z], var[2][z], var[3][z], var[4][z], var[5][z], var[6][z], var[7][z]))
+                row = ([z] + [var[x][z] for x in range(0,8)])
+                wtr.writerow(row)
 
 print str(time.time() - t0)
 print("Press any key")
