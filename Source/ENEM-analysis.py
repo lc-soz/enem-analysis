@@ -6,8 +6,9 @@ import time
 
 t0 = time.time() # For run time (wall time)
 
-# Matrix with all grades
 global var
+
+# Matrix with all cell_grades
 var = [[0 for x in range(0,46)] for x in range(0,8)]
 
 for i in (0,2,4,6):
@@ -16,11 +17,30 @@ for i in (0,2,4,6):
 
         var[i][z] = 1000
 
+def save_values(cell_grade):
+
+        global cell_answer
+
+        cell_answer = 5 + cell_grade
+        var_pos = cell_grade * 2
+
+        if is_value_correct(cell_grade):
+            
+            value_answer = int(r[cell_answer])
+            var[var_pos][value_answer] = min(var[var_pos][value_answer], float(r[cell_grade]))
+            var[(var_pos + 1)][value_answer] = max(var[(var_pos + 1)][value_answer], float(r[cell_grade]))
+            
+def is_value_correct(cell_grade):
+        
+        if r[cell_answer] != "" and r[cell_grade] != "" and float(r[cell_grade]) > 0:
+        
+            return True
+            
 with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
 
     rdr = csv.reader(source)
 
-    with open("ENEM_analysis.csv", "wb") as result:
+    with open("ENEM-analysis.csv", "wb") as result:
 
         wtr = csv.writer(result)
 
@@ -30,38 +50,21 @@ with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
 
         with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
 
-            rdr = csv.reader(source)
             next(rdr, None)
             
             for r in rdr:
+                
+                # Ciencias da Natureza 
+                save_values(0)
 
-                # Ciencias da Natureza
-                if r[5] != "" and r[0] != "" and float(r[0]) > 0:
+                # Ciencias Humanas 
+                save_values(1)
 
-                    i = int(r[5])
-                    var[0][i] = min(var[0][i], float(r[0]))
-                    var[1][i] = max(var[1][i], float(r[0]))
+                # Letras e Codigos 
+                save_values(2)
 
-                # Ciencias Humanas
-                if r[6] != "" and r[1] != "" and float(r[1]) > 0:
-
-                    i = int(r[6])
-                    var[2][i] = min(var[2][i], float(r[1]))
-                    var[3][i] = max(var[3][i], float(r[1]))
-
-                # Letras e Codigos
-                if r[7] != "" and r[2] != "" and float(r[2]) > 0:
-
-                    i = int(r[7])
-                    var[4][i] = min(var[4][i], float(r[2]))
-                    var[5][i] = max(var[5][i], float(r[2]))
-
-                # Matematica
-                if r[8] != "" and r[3] != "" and float(r[3]) > 0:
-
-                    i = int(r[8])
-                    var[6][i] = min(var[6][i], float(r[3]))
-                    var[7][i] = max(var[7][i], float(r[3]))
+                # Matematica 
+                save_values(3)
 
             for z in range(0, 46):
                 
