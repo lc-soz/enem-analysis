@@ -1,4 +1,4 @@
-# Deleting not useful columns from file
+# Deleting not useful columns from file.
 
 import csv
 import time
@@ -33,6 +33,4 @@ with open("C:\TESTS\MICRODADOS_ENEM_2014.csv","rb") as source:
                 row = [r[x] for x in range(70,83)]
                 wtr.writerow(row)
 
-print str(time.time() - t0)
-print("Press any key")
-input()
+print "deleting-columns: " + str(time.time() - t0)

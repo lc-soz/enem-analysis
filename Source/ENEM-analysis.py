@@ -32,11 +32,11 @@ def is_value_correct(cell_grade, cell_answer):
         
             return True
             
-with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
+with open("C:\TESTS\end.csv", "rb") as source:
 
     rdr = csv.reader(source)
 
-    with open("ENEM-analysis.csv", "wb") as result:
+    with open("C:\TESTS\ENEM-analysis.csv", "wb") as result:
 
         wtr = csv.writer(result)
 
@@ -44,29 +44,25 @@ with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
         wtr.writerow(["", "CN", "", "CH", "", "LC", "", "MT"])
         wtr.writerow(["NUM"] + ["MIN", "MAX"] * 4)
 
-        with open("C:/Users/luc-s/Desktop/a.csv", "rb") as source:
-
-            next(rdr, None)
+        next(rdr, None)
+        
+        for r in rdr:
             
-            for r in rdr:
-                
-                # Ciencias da Natureza 
-                save_values(0, 5)
+            # Ciencias da Natureza 
+            save_values(0, 5)
 
-                # Ciencias Humanas 
-                save_values(1, 6)
+            # Ciencias Humanas 
+            save_values(1, 6)
 
-                # Letras e Codigos 
-                save_values(2, 7)
+            # Letras e Codigos 
+            save_values(2, 7)
 
-                # Matematica 
-                save_values(3, 8)
+            # Matematica 
+            save_values(3, 8)
 
-            for z in range(0, 46):
-                
-                row = ([z] + [var[x][z] for x in range(0,8)])
-                wtr.writerow(row)
+        for z in range(0, 46):
+            
+            row = ([z] + [var[x][z] for x in range(0,8)])
+            wtr.writerow(row)
 
-print str(time.time() - t0)
-print("Press any key")
-input()
+print "ENEM-analysis: " + str(time.time() - t0)

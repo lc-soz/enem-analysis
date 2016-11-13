@@ -1,9 +1,11 @@
-# Count correct answers in exam.
+# Count correct answers in exam and write important information to final file.
 
 import csv
 import time
 
 t0 = time.time() # For run time (wall time)
+
+header = ['NOTA_CN', 'NOTA_CH', 'NOTA_LC', 'NOTA_MT', 'TP_LINGUA', 'NUM_CN', 'NUM_CH', 'NUM_LC', 'NUM_MT']
 
 def compare(a, b): #Function for the amount of equal characters in a string
     
@@ -27,13 +29,13 @@ def compare(a, b): #Function for the amount of equal characters in a string
 
 with open("C:\TESTS\ENEM2014.csv","rb") as source:
 
-    rdr = csv.reader( source )
+    rdr = csv.reader(source)
 
     with open("C:\TESTS\end.csv","wb") as result:
 
-        wtr = csv.writer( result )
+        wtr = csv.writer(result)
         
-        wtr.writerow(('NOTA_CN', 'NOTA_CH', 'NOTA_LC', 'NOTA_MT', 'TP_LINGUA', 'NUM_CN', 'NUM_CH', 'NUM_LC', 'NUM_MT')) #HEADER
+        wtr.writerow(header)
 
         next(rdr, None)
         for r in rdr:
@@ -70,6 +72,4 @@ with open("C:\TESTS\ENEM2014.csv","rb") as source:
             linguagens_e_codigos = ""
             matematica = ""
 
-print str(time.time() - t0)                
-print("Press any key to close terminal")
-input()
+print "count-corrects: " + str(time.time() - t0)
