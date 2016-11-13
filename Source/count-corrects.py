@@ -1,71 +1,75 @@
 # Count correct answers in exam.
 
 import csv
+import time
+
+t0 = time.time() # For run time (wall time)
 
 def compare(a, b): #Function for the amount of equal characters in a string
+    
+    cell_score = a - 4
+    
+    if r[cell_score] != "": 
+        
+        i = 0
 
-    i = 0
+        for x, y in zip(r[a], b):
 
-    for x, y in zip(a, b):
+            if x == y:
 
-        if x == y:
+                i = i + 1
 
-            i = i + 1
+        return i
+        
+    else:
+        
+        return ""
 
-    return i
-
-with open("ENEM2014_1.csv","rb") as source:
+with open("C:\TESTS\ENEM2014.csv","rb") as source:
 
     rdr = csv.reader( source )
 
-    with open("a.csv","wb") as result:
+    with open("C:\TESTS\end.csv","wb") as result:
 
         wtr = csv.writer( result )
+        
+        wtr.writerow(('NOTA_CN', 'NOTA_CH', 'NOTA_LC', 'NOTA_MT', 'TP_LINGUA', 'NUM_CN', 'NUM_CH', 'NUM_LC', 'NUM_MT')) #HEADER
 
+        next(rdr, None)
         for r in rdr:
 
-            if r[0] == 'NOTA_CN':
+            ciencias_da_natureza = compare(4, r[9])
+            
+            ciencias_humanas = compare(5, r[10])
 
-                # Header
-                wtr.writerow((r[0], r[1], r[2], r[3], 'TP_LINGUA', 'NUM_CN', 'NUM_CH', 'NUM_LC', 'NUM_MT'))
+            if r[11] != "":
 
-            elif not(r[0] == "" and r[1] == "" and r[2] == "" and r[3] == ""): # This test if all four end-grades are not blank, if not, don't write to final file
-	
-                # Ciencias da Natureza
-                a = compare(r[4], r[9])
-				
-                # Ciencias Humanas
-                b = compare(r[5], r[10])
-				
-                # Linguagens e Codigos
-                if r[11] != "":
+                matrix_ligcod = list(r[11])
 
-                    lcMtx = list(r[11])
+                if r[8] == 0:
 
-                    if r[8] == 0:
+                    for z in range(0, 5):
+                    
+                        matrix_ligcod.pop([6])
 
-                        for z in range(0,5):
-                        
-                            lcMtx.pop([6])
+                else:
 
-                    else:
+                    for z in range(0, 5):
+                    
+                        matrix_ligcod.pop(1)
 
-                        for z in range(0,5):
-                        
-                            lcMtx.pop(1)
+                gabarito_ligcod = ''.join(matrix_ligcod)
 
-                    lcGab = ''.join(lcMtx)
+                linguagens_e_codigos = compare(6, gabarito_ligcod)
 
-                    c = compare(r[6], lcGab)
+            matematica = compare(7, r[12])
 
-                # Matematica
-                d = compare(r[7], r[12])
+            wtr.writerow((r[0], r[1], r[2], r[3], r[8], ciencias_da_natureza, ciencias_humanas, linguagens_e_codigos, matematica))
+            ciencias_da_natureza = ""
+            ciencias_humanas = ""
+            linguagens_e_codigos = ""
+            matematica = ""
 
-                wtr.writerow((r[0], r[1], r[2], r[3], r[8], a, b, c, d))
-                a = 0
-                b = 0
-                c = 0
-                d = 0
-                
+print str(time.time() - t0)                
 print("Press any key to close terminal")
 input()
