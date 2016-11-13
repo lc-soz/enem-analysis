@@ -1,7 +1,6 @@
 # Write min and max scores in exam from the amount of correct marks.
 
 import csv
-import os
 import time
 
 t0 = time.time() # For run time (wall time)
